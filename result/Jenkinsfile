@@ -1,28 +1,31 @@
 pipeline {
   agent any
+
   tools{
      nodejs 'NodeJS 8.9.0'
   }
+
   stages{
       stage(build){
-          when{
+          when {
             changeset "**/result/**"
           }
           steps{
               echo 'compiling result app'
-              dir('worker'){
-                  sh 'npm compile'
+              dir('result'){
+                sh 'npm install'
               }
           }
       }
       stage(test){
-          when{
+          when {
             changeset "**/result/**"
           }
           steps{
               echo 'testing result app'
-              dir('worker'){
-                  sh 'npm clean test'
+              dir('result'){
+                sh 'npm install'
+                sh 'npm test'
               }
           }
       }
